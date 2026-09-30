@@ -32,13 +32,28 @@ export type MemoryControls = {
   setDownloaded(name: string, isDownloaded: boolean): void;
   /** Simulate an account change. Emits `availabilityChanged`. */
   setAvailable(isAvailable: boolean): void;
-  /** Force the next backend call to reject with this code. */
-  failNext(code: ICloudErrorCode): void;
+  /**
+   * Force the next backend call to reject with this code. With an
+   * operation, only the next call of that operation rejects.
+   */
+  failNext(code: ICloudErrorCode, operation?: MemoryOperation): void;
   /** The content of a container item, without the placeholder check. */
   peek(name: string): string | undefined;
   readLocalFile(localPath: string): string | undefined;
   writeLocalFile(localPath: string, data: string): void;
 };
+
+export type MemoryOperation =
+  | 'copyIn'
+  | 'copyOut'
+  | 'isAvailable'
+  | 'kvSynchronize'
+  | 'list'
+  | 'read'
+  | 'remove'
+  | 'startDownload'
+  | 'stat'
+  | 'write';
 
 const reject = (code: ICloudErrorCode, message: string): Promise<never> =>
   Promise.reject(new Error(`[${code}] ${message}`));
@@ -59,7 +74,9 @@ export function createMemoryBackend(
   const listeners = new Map<number, (event: RawEvent) => void>();
   let nextListenerId = 1;
   let isAvailable = true;
-  let pendingFailure: ICloudErrorCode | undefined;
+  let pendingFailure:
+    | { code: ICloudErrorCode; operation?: MemoryOperation }
+    | undefined;
   let config: NativeConfig = { directory: 'Documents' };
   let lastModifiedAt = 0;
 
@@ -81,12 +98,25 @@ export function createMemoryBackend(
     }
   };
 
+  const takeFailure = (
+    operation: MemoryOperation,
+  ): ICloudErrorCode | undefined => {
+    if (
+      !pendingFailure ||
+      (pendingFailure.operation && pendingFailure.operation !== operation)
+    ) {
+      return undefined;
+    }
+    const { code } = pendingFailure;
+    pendingFailure = undefined;
+    return code;
+  };
+
   /** Rejects when a failure is queued or the account is signed out. */
-  const guard = (): Promise<void> | undefined => {
-    if (pendingFailure) {
-      const code = pendingFailure;
-      pendingFailure = undefined;
-      return reject(code, 'Forced failure');
+  const guard = (operation: MemoryOperation): Promise<void> | undefined => {
+    const failure = takeFailure(operation);
+    if (failure) {
+      return reject(failure, 'Forced failure');
     }
     if (!isAvailable) {
       return reject('notSignedIn', 'No iCloud account is signed in');
@@ -94,8 +124,11 @@ export function createMemoryBackend(
     return undefined;
   };
 
-  const run = async <T>(operation: () => T | Promise<T>): Promise<T> => {
-    await (guard() ?? Promise.resolve());
+  const run = async <T>(
+    name: MemoryOperation,
+    operation: () => T | Promise<T>,
+  ): Promise<T> => {
+    await (guard(name) ?? Promise.resolve());
     return operation();
   };
 
@@ -157,7 +190,7 @@ export function createMemoryBackend(
       usedFallback: false,
     }),
     copyIn: (localPath, name) =>
-      run(() => {
+      run('copyIn', () => {
         const data = localFiles.get(localPath);
         if (data === undefined) {
           throw new Error(`[notFound] The source file does not exist: ${localPath}`);
@@ -165,7 +198,7 @@ export function createMemoryBackend(
         items.set(name, { data, isDownloaded: true, modifiedAt: now() });
       }),
     copyOut: (name, localPath) =>
-      run(() => {
+      run('copyOut', () => {
         const data = readItem(name);
         if (data === undefined) {
           return false;
@@ -173,13 +206,12 @@ export function createMemoryBackend(
         localFiles.set(localPath, data);
         return true;
       }),
-    failNext: code => {
-      pendingFailure = code;
+    failNext: (code, operation) => {
+      pendingFailure = { code, operation };
     },
     isAvailable: async () => {
-      const failure = pendingFailure;
+      const failure = takeFailure('isAvailable');
       if (failure) {
-        pendingFailure = undefined;
         return reject(failure, 'Forced failure');
       }
       return isAvailable;
@@ -192,9 +224,9 @@ export function createMemoryBackend(
     kvSet: (key, value) => {
       kv.set(key, value);
     },
-    kvSynchronize: () => run(() => true),
+    kvSynchronize: () => run('kvSynchronize', () => true),
     list: directory =>
-      run(() => {
+      run('list', () => {
         const names = new Set<string>();
         for (const key of items.keys()) {
           if (!isInside(key, directory)) {
@@ -210,7 +242,7 @@ export function createMemoryBackend(
           .filter((stat): stat is RawStat => stat !== undefined);
       }),
     peek: name => items.get(name)?.data,
-    read: name => run(() => readItem(name)),
+    read: name => run('read', () => readItem(name)),
     readLocalFile: localPath => localFiles.get(localPath),
     remoteWrite: (name, data, modifiedAt) => {
       items.set(name, {
@@ -221,7 +253,7 @@ export function createMemoryBackend(
       emit({ keys: [], names: [name], type: 'documentsChanged' });
     },
     remove: name =>
-      run(() => {
+      run('remove', () => {
         for (const key of [...items.keys()]) {
           if (key === name || isInside(key, name)) {
             items.delete(key);
@@ -247,14 +279,14 @@ export function createMemoryBackend(
       }
     },
     startDownload: name =>
-      run(() => {
+      run('startDownload', () => {
         if (!statOf(name)) {
           throw new Error(`[notFound] ${name} does not exist`);
         }
       }),
-    stat: name => run(() => statOf(name)),
+    stat: name => run('stat', () => statOf(name)),
     write: (name, data) =>
-      run(() => {
+      run('write', () => {
         items.set(name, { data, isDownloaded: true, modifiedAt: now() });
       }),
     writeLocalFile: (localPath, data) => {

@@ -3,6 +3,7 @@ import type { ICloudConfig, ICloudStore } from '../types';
 import {
   createMemoryBackend,
   type MemoryControls,
+  type MemoryOperation,
   type MemorySeed,
 } from './memoryBackend';
 
@@ -30,5 +31,5 @@ export function createMemoryICloudStore(
   };
 }
 
-export type { MemoryControls, MemorySeed };
+export type { MemoryControls, MemoryOperation, MemorySeed };
 export { createMemoryBackend };

@@ -92,6 +92,17 @@ describe('createMemoryICloudStore', () => {
     await expect(store.doc('a').writeRaw('1')).resolves.toBeUndefined();
   });
 
+  it('fails only the named operation with failNext', async () => {
+    const store = createMemoryICloudStore({ documents: { a: '1' } });
+    store.failNext('writeFailed', 'remove');
+
+    await expect(store.doc('a').readRaw()).resolves.toBe('1');
+    await expect(store.doc('a').delete()).rejects.toMatchObject({
+      code: 'writeFailed',
+    });
+    await expect(store.doc('a').delete()).resolves.toBeUndefined();
+  });
+
   it('emits documentsChanged for a remote write, with a newer date', async () => {
     const store = createMemoryICloudStore({ documents: { 'state.lumee': 'old' } });
     const listener = jest.fn();
