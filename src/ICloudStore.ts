@@ -1,4 +1,5 @@
 import type { ICloudNativeBackend } from './native/types';
+import { runDiagnostics } from './diagnostics';
 import { ICloudError, toICloudError } from './errors';
 import type { RawEvent, RawStat } from './ReactNativeIcloud.nitro';
 import type {
@@ -7,6 +8,7 @@ import type {
   ICloudChangeEvent,
   ICloudConfig,
   ICloudDocument,
+  ICloudLogEntry,
   ICloudStore,
   StatOptions,
 } from './types';
@@ -48,6 +50,23 @@ const toEvent = (raw: RawEvent): ICloudChangeEvent => {
   }
 };
 
+/** A short, log-safe summary of an operation result. */
+const summarize = (result: unknown): ICloudLogEntry['result'] => {
+  if (result === undefined || result === null) {
+    return 'none';
+  }
+  if (typeof result === 'string') {
+    return `${result.length} chars`;
+  }
+  if (Array.isArray(result)) {
+    return `${result.length} items`;
+  }
+  if (typeof result === 'boolean' || typeof result === 'number') {
+    return String(result);
+  }
+  return 'ok';
+};
+
 /**
  * Build a store over a backend. `undefined` means the platform has no
  * backend: `isSupported()` is false and every other call rejects with
@@ -61,6 +80,7 @@ export function createStoreWithBackend(
   const downloadTimeoutMs =
     config.downloadTimeoutMs ?? DEFAULT_DOWNLOAD_TIMEOUT_MS;
   const onError = config.onError ?? noop;
+  const onLog = config.onLog ?? noop;
 
   backend?.configure({ container: config.container, directory });
 
@@ -85,23 +105,55 @@ export function createStoreWithBackend(
     return backend;
   };
 
+  /** Runs one native operation, and logs its duration and outcome. */
   const call = async <T>(
-    operation: (native: ICloudNativeBackend) => Promise<T>,
+    operation: string,
+    name: string | undefined,
+    run: (native: ICloudNativeBackend) => Promise<T>,
   ): Promise<T> => {
-    const native = requireBackend();
+    const startedAt = Date.now();
     try {
-      return await operation(native);
+      const result = await run(requireBackend());
+      onLog({
+        durationMs: Date.now() - startedAt,
+        name,
+        operation,
+        outcome: 'ok',
+        result: summarize(result),
+      });
+      return result;
     } catch (error) {
-      throw fail(error);
+      const iCloudError =
+        error instanceof ICloudError ? error : fail(error);
+      onLog({
+        code: iCloudError.code,
+        durationMs: Date.now() - startedAt,
+        message: iCloudError.message,
+        name,
+        operation,
+        outcome: 'error',
+      });
+      throw iCloudError;
     }
   };
 
-  const callSync = <T>(operation: (native: ICloudNativeBackend) => T): T => {
+  const callSync = <T>(
+    operation: string,
+    run: (native: ICloudNativeBackend) => T,
+  ): T => {
     const native = requireBackend();
     try {
-      return operation(native);
+      return run(native);
     } catch (error) {
-      throw fail(error);
+      const iCloudError = fail(error);
+      onLog({
+        code: iCloudError.code,
+        durationMs: 0,
+        message: iCloudError.message,
+        operation,
+        outcome: 'error',
+      });
+      throw iCloudError;
     }
   };
 
@@ -133,13 +185,15 @@ export function createStoreWithBackend(
   };
 
   const remove = (name: string): Promise<void> =>
-    trackWrite(name, () => call(native => native.remove(name)));
+    trackWrite(name, () =>
+      call('remove', name, native => native.remove(name)),
+    );
 
   const stat = async (
     name: string,
     options: StatOptions = {},
   ): Promise<DocumentInfo | undefined> => {
-    const raw = await call(native =>
+    const raw = await call('stat', name, native =>
       native.stat(name, options.downloadTimeoutMs ?? 0),
     );
     return raw ? toInfo(raw) : undefined;
@@ -148,7 +202,10 @@ export function createStoreWithBackend(
   const list = async (
     options: { directory?: string } = {},
   ): Promise<DocumentInfo[]> => {
-    const raws = await call(native => native.list(options.directory ?? ''));
+    const listDirectory = options.directory ?? '';
+    const raws = await call('list', listDirectory, native =>
+      native.list(listDirectory),
+    );
     return raws.map(toInfo);
   };
 
@@ -157,9 +214,11 @@ export function createStoreWithBackend(
     codec: Codec<T> = jsonCodec as Codec<T>,
   ): ICloudDocument<T> => {
     const readRaw = (): Promise<string | undefined> =>
-      call(native => native.read(name, downloadTimeoutMs));
+      call('read', name, native => native.read(name, downloadTimeoutMs));
     const writeRaw = (data: string): Promise<void> =>
-      trackWrite(name, () => call(native => native.write(name, data)));
+      trackWrite(name, () =>
+        call('write', name, native => native.write(name, data)),
+      );
 
     return {
       delete: () => remove(name),
@@ -208,22 +267,30 @@ export function createStoreWithBackend(
           firstError ??= error;
         }
       }
-      const kvKeys = callSync(native => native.kvKeys());
+      const kvKeys = callSync('kvKeys', native => native.kvKeys());
       for (const key of kvKeys) {
-        callSync(native => native.kvRemove(key));
+        callSync('kvRemove', native => native.kvRemove(key));
       }
       if (kvKeys.length > 0) {
-        await call(native => native.kvSynchronize());
+        await call('kvSynchronize', undefined, native =>
+          native.kvSynchronize(),
+        );
       }
       if (firstError !== undefined) {
         throw firstError;
       }
     },
+    diagnose: () =>
+      runDiagnostics({
+        backend,
+        directory,
+        list: () => list(),
+      }),
     doc,
     files: {
       delete: remove,
       download: async (name, localPath) => {
-        const isCopied = await call(native =>
+        const isCopied = await call('copyOut', name, native =>
           native.copyOut(name, localPath, downloadTimeoutMs),
         );
         return isCopied ? localPath : undefined;
@@ -231,20 +298,27 @@ export function createStoreWithBackend(
       exists: async name => (await stat(name)) !== undefined,
       list,
       upload: (localPath, name) =>
-        trackWrite(name, () => call(native => native.copyIn(localPath, name))),
+        trackWrite(name, () =>
+          call('copyIn', name, native => native.copyIn(localPath, name)),
+        ),
     },
     getContainerPath: async () =>
-      (await call(native => native.containerInfo())).containerPath,
-    isAvailable: () => call(native => native.isAvailable()),
+      (await call('containerInfo', undefined, native => native.containerInfo()))
+        .containerPath,
+    isAvailable: () =>
+      call('isAvailable', undefined, native => native.isAvailable()),
     isIdle: () => inFlightWrites.size === 0,
     isSupported: () => backend !== undefined,
     kv: {
-      get: key => callSync(native => native.kvGet(key)),
-      keys: () => callSync(native => native.kvKeys()),
-      remove: key => callSync(native => native.kvRemove(key)),
-      set: (key, value) => callSync(native => native.kvSet(key, value)),
+      get: key => callSync('kvGet', native => native.kvGet(key)),
+      keys: () => callSync('kvKeys', native => native.kvKeys()),
+      remove: key => callSync('kvRemove', native => native.kvRemove(key)),
+      set: (key, value) =>
+        callSync('kvSet', native => native.kvSet(key, value)),
       synchronize: async () => {
-        const isSynchronized = await call(native => native.kvSynchronize());
+        const isSynchronized = await call('kvSynchronize', undefined, native =>
+          native.kvSynchronize(),
+        );
         if (!isSynchronized) {
           throw fail(
             new ICloudError(
@@ -260,10 +334,11 @@ export function createStoreWithBackend(
       if (!backend) {
         return noop;
       }
-      const id = callSync(native =>
+      const id = callSync('addListener', native =>
         native.addListener(raw => listener(toEvent(raw))),
       );
-      return () => callSync(native => native.removeListener(id));
+      return () =>
+        callSync('removeListener', native => native.removeListener(id));
     },
     waitUntilIdle,
   };

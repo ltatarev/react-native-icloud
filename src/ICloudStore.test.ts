@@ -323,3 +323,124 @@ describe('subscribe', () => {
     expect(backend.removeListener).toHaveBeenCalledWith(7);
   });
 });
+
+describe('onLog', () => {
+  it('logs the operation, name, outcome and a short result', async () => {
+    const backend = createMockBackend();
+    backend.read.mockResolvedValue('12345');
+    const onLog = jest.fn();
+    const store = createStoreWithBackend(backend, { onLog });
+
+    await store.doc('state.lumee').readRaw();
+
+    expect(onLog).toHaveBeenCalledWith({
+      durationMs: expect.any(Number),
+      name: 'state.lumee',
+      operation: 'read',
+      outcome: 'ok',
+      result: '5 chars',
+    });
+  });
+
+  it('logs the error code and message of a failure', async () => {
+    const backend = createMockBackend();
+    backend.copyIn.mockRejectedValue(new Error('[notFound] no source'));
+    const onLog = jest.fn();
+    const store = createStoreWithBackend(backend, { onLog });
+
+    await expect(store.files.upload('/a', 'images/a.jpg')).rejects.toThrow();
+
+    expect(onLog).toHaveBeenCalledWith({
+      code: 'notFound',
+      durationMs: expect.any(Number),
+      message: 'no source',
+      name: 'images/a.jpg',
+      operation: 'copyIn',
+      outcome: 'error',
+    });
+  });
+});
+
+describe('diagnose', () => {
+  const containerInfo = {
+    containerPath: '/container',
+    containerSource: 'infoPlist',
+    isSignedIn: true,
+    requestedContainer: 'iCloud.com.example',
+    usedFallback: false,
+  };
+
+  it('reports no problems for a working setup', async () => {
+    const backend = createMockBackend();
+    backend.containerInfo.mockResolvedValue(containerInfo);
+    backend.list.mockResolvedValue([rawStat('a'), rawStat('b')]);
+    const store = createStoreWithBackend(backend);
+
+    await expect(store.diagnose()).resolves.toEqual({
+      containerPath: '/container',
+      containerSource: 'infoPlist',
+      directory: 'Documents',
+      documentCount: 2,
+      isAvailable: true,
+      isSignedIn: true,
+      isSupported: true,
+      problems: [],
+      requestedContainer: 'iCloud.com.example',
+      usedFallback: false,
+    });
+  });
+
+  it('names the missing native module', async () => {
+    const result = await createStoreWithBackend(undefined).diagnose();
+
+    expect(result.isSupported).toBe(false);
+    expect(result.containerSource).toBe('unresolved');
+    expect(result.problems[0]).toContain('pod install');
+  });
+
+  it('names a signed-out account', async () => {
+    const backend = createMockBackend();
+    backend.containerInfo.mockResolvedValue({
+      ...containerInfo,
+      containerPath: undefined,
+      isSignedIn: false,
+    });
+
+    const result = await createStoreWithBackend(backend).diagnose();
+
+    expect(result.problems).toEqual([
+      'No iCloud account is signed in on this device.',
+    ]);
+  });
+
+  it('names the fallback to the default container', async () => {
+    const backend = createMockBackend();
+    backend.containerInfo.mockResolvedValue({
+      ...containerInfo,
+      usedFallback: true,
+    });
+
+    const result = await createStoreWithBackend(backend).diagnose();
+
+    expect(result.problems[0]).toContain('iCloud.com.example is not reachable');
+  });
+
+  it('names an unreachable container and a failed list, and never throws', async () => {
+    const backend = createMockBackend();
+    backend.containerInfo.mockResolvedValue({
+      ...containerInfo,
+      containerPath: undefined,
+    });
+
+    const unreachable = await createStoreWithBackend(backend).diagnose();
+    expect(unreachable.problems[0]).toContain('No container is reachable');
+
+    backend.containerInfo.mockResolvedValue(containerInfo);
+    backend.list.mockRejectedValue(new Error('[coordinationFailed] busy'));
+
+    const listFailed = await createStoreWithBackend(backend).diagnose();
+    expect(listFailed.problems).toEqual([
+      'list failed: [coordinationFailed] busy',
+    ]);
+  });
+});

@@ -1,5 +1,8 @@
-import type { ICloudError } from './errors';
-import type { KeyValueChangeReason } from './ReactNativeIcloud.nitro';
+import type { ICloudError, ICloudErrorCode } from './errors';
+import type {
+  ContainerSource,
+  KeyValueChangeReason,
+} from './ReactNativeIcloud.nitro';
 
 export type ICloudConfig = {
   /** Ubiquity container id. Omit to use Info.plist, then the entitlement. */
@@ -10,6 +13,37 @@ export type ICloudConfig = {
   downloadTimeoutMs?: number;
   /** Called on every native failure. Default: no-op. */
   onError?: (error: ICloudError) => void;
+  /** Called after every native operation. Default: no-op. */
+  onLog?: (entry: ICloudLogEntry) => void;
+};
+
+export type ICloudLogEntry = {
+  /** The native operation, such as `read` or `copyIn`. */
+  operation: string;
+  /** The document, file or directory name, when the operation has one. */
+  name?: string;
+  durationMs: number;
+  outcome: 'ok' | 'error';
+  /** A short summary, such as `12 chars` or `3 items`. No file content. */
+  result?: string;
+  code?: ICloudErrorCode;
+  message?: string;
+};
+
+export type ICloudDiagnostics = {
+  isSupported: boolean;
+  /** The configured or Info.plist id. Undefined for the first entitlement. */
+  requestedContainer: string | undefined;
+  containerSource: ContainerSource | 'unresolved';
+  /** True when the requested id failed and the default container is used. */
+  usedFallback: boolean;
+  isSignedIn: boolean;
+  isAvailable: boolean;
+  containerPath: string | undefined;
+  directory: string;
+  documentCount: number | undefined;
+  /** Readable problems. Each one names the setup step to fix. */
+  problems: string[];
 };
 
 export type DocumentInfo = {
@@ -94,4 +128,7 @@ export type ICloudStore = {
   isIdle(): boolean;
   /** Resolves true when writes drain, false on timeout. Default 60000. */
   waitUntilIdle(timeoutMs?: number): Promise<boolean>;
+
+  /** Checks the setup step by step. Never throws. */
+  diagnose(): Promise<ICloudDiagnostics>;
 };
