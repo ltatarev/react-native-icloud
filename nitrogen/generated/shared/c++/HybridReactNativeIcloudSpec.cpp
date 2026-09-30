@@ -14,7 +14,24 @@ namespace margelo::nitro::ltatarev_reactnativeicloud {
     HybridObject::loadHybridMethods();
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
-      prototype.registerHybridMethod("multiply", &HybridReactNativeIcloudSpec::multiply);
+      prototype.registerHybridMethod("configure", &HybridReactNativeIcloudSpec::configure);
+      prototype.registerHybridMethod("containerInfo", &HybridReactNativeIcloudSpec::containerInfo);
+      prototype.registerHybridMethod("isAvailable", &HybridReactNativeIcloudSpec::isAvailable);
+      prototype.registerHybridMethod("read", &HybridReactNativeIcloudSpec::read);
+      prototype.registerHybridMethod("write", &HybridReactNativeIcloudSpec::write);
+      prototype.registerHybridMethod("stat", &HybridReactNativeIcloudSpec::stat);
+      prototype.registerHybridMethod("remove", &HybridReactNativeIcloudSpec::remove);
+      prototype.registerHybridMethod("list", &HybridReactNativeIcloudSpec::list);
+      prototype.registerHybridMethod("startDownload", &HybridReactNativeIcloudSpec::startDownload);
+      prototype.registerHybridMethod("copyIn", &HybridReactNativeIcloudSpec::copyIn);
+      prototype.registerHybridMethod("copyOut", &HybridReactNativeIcloudSpec::copyOut);
+      prototype.registerHybridMethod("kvGet", &HybridReactNativeIcloudSpec::kvGet);
+      prototype.registerHybridMethod("kvSet", &HybridReactNativeIcloudSpec::kvSet);
+      prototype.registerHybridMethod("kvRemove", &HybridReactNativeIcloudSpec::kvRemove);
+      prototype.registerHybridMethod("kvKeys", &HybridReactNativeIcloudSpec::kvKeys);
+      prototype.registerHybridMethod("kvSynchronize", &HybridReactNativeIcloudSpec::kvSynchronize);
+      prototype.registerHybridMethod("addListener", &HybridReactNativeIcloudSpec::addListener);
+      prototype.registerHybridMethod("removeListener", &HybridReactNativeIcloudSpec::removeListener);
     });
   }
 

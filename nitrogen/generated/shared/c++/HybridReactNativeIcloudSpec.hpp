@@ -13,9 +13,24 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `NativeConfig` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct NativeConfig; }
+// Forward declaration of `ContainerInfo` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct ContainerInfo; }
+// Forward declaration of `RawStat` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawStat; }
+// Forward declaration of `RawEvent` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawEvent; }
 
-
-
+#include "NativeConfig.hpp"
+#include "ContainerInfo.hpp"
+#include <NitroModules/Promise.hpp>
+#include <string>
+#include <optional>
+#include "RawStat.hpp"
+#include <vector>
+#include "RawEvent.hpp"
+#include <functional>
 
 namespace margelo::nitro::ltatarev_reactnativeicloud {
 
@@ -48,7 +63,24 @@ namespace margelo::nitro::ltatarev_reactnativeicloud {
 
     public:
       // Methods
-      virtual double multiply(double a, double b) = 0;
+      virtual void configure(const NativeConfig& config) = 0;
+      virtual std::shared_ptr<Promise<ContainerInfo>> containerInfo() = 0;
+      virtual std::shared_ptr<Promise<bool>> isAvailable() = 0;
+      virtual std::shared_ptr<Promise<std::optional<std::string>>> read(const std::string& name, double timeoutMs) = 0;
+      virtual std::shared_ptr<Promise<void>> write(const std::string& name, const std::string& data) = 0;
+      virtual std::shared_ptr<Promise<std::optional<RawStat>>> stat(const std::string& name, double timeoutMs) = 0;
+      virtual std::shared_ptr<Promise<void>> remove(const std::string& name) = 0;
+      virtual std::shared_ptr<Promise<std::vector<RawStat>>> list(const std::string& directory) = 0;
+      virtual std::shared_ptr<Promise<void>> startDownload(const std::string& name) = 0;
+      virtual std::shared_ptr<Promise<void>> copyIn(const std::string& localPath, const std::string& name) = 0;
+      virtual std::shared_ptr<Promise<bool>> copyOut(const std::string& name, const std::string& localPath, double timeoutMs) = 0;
+      virtual std::optional<std::string> kvGet(const std::string& key) = 0;
+      virtual void kvSet(const std::string& key, const std::string& value) = 0;
+      virtual void kvRemove(const std::string& key) = 0;
+      virtual std::vector<std::string> kvKeys() = 0;
+      virtual std::shared_ptr<Promise<bool>> kvSynchronize() = 0;
+      virtual double addListener(const std::function<void(const RawEvent& /* event */)>& listener) = 0;
+      virtual void removeListener(double id) = 0;
 
     protected:
       // Hybrid Setup

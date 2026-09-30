@@ -8,14 +8,40 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `ContainerInfo` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct ContainerInfo; }
+// Forward declaration of `ContainerSource` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class ContainerSource; }
 // Forward declaration of `HybridReactNativeIcloudSpec` to properly resolve imports.
 namespace margelo::nitro::ltatarev_reactnativeicloud { class HybridReactNativeIcloudSpec; }
+// Forward declaration of `KeyValueChangeReason` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class KeyValueChangeReason; }
+// Forward declaration of `NativeConfig` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct NativeConfig; }
+// Forward declaration of `RawEventType` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class RawEventType; }
+// Forward declaration of `RawEvent` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawEvent; }
+// Forward declaration of `RawStat` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawStat; }
 
 // Include C++ defined types
+#include "ContainerInfo.hpp"
+#include "ContainerSource.hpp"
 #include "HybridReactNativeIcloudSpec.hpp"
+#include "KeyValueChangeReason.hpp"
+#include "NativeConfig.hpp"
+#include "RawEvent.hpp"
+#include "RawEventType.hpp"
+#include "RawStat.hpp"
+#include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <string>
+#include <vector>
 
 // C++ helpers for Swift
 #include "ReactNativeIcloud-Swift-Cxx-Bridge.hpp"

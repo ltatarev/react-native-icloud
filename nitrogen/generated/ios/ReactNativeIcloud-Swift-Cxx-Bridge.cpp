@@ -14,6 +14,70 @@
 
 namespace margelo::nitro::ltatarev_reactnativeicloud::bridge::swift {
 
+  // pragma MARK: std::function<void(const ContainerInfo& /* result */)>
+  Func_void_ContainerInfo create_Func_void_ContainerInfo(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_ContainerInfo::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const ContainerInfo& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
+  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_std__exception_ptr::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::exception_ptr& error) mutable -> void {
+      swiftClosure.call(error);
+    };
+  }
+  
+  // pragma MARK: std::function<void(bool /* result */)>
+  Func_void_bool create_Func_void_bool(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_bool::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](bool result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::optional<std::string>& /* result */)>
+  Func_void_std__optional_std__string_ create_Func_void_std__optional_std__string_(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_std__optional_std__string_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::optional<std::string>& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void()>
+  Func_void create_Func_void(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)]() mutable -> void {
+      swiftClosure.call();
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::optional<RawStat>& /* result */)>
+  Func_void_std__optional_RawStat_ create_Func_void_std__optional_RawStat_(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_std__optional_RawStat_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::optional<RawStat>& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::vector<RawStat>& /* result */)>
+  Func_void_std__vector_RawStat_ create_Func_void_std__vector_RawStat_(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_std__vector_RawStat_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::vector<RawStat>& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const RawEvent& /* event */)>
+  Func_void_RawEvent create_Func_void_RawEvent(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeIcloud::Func_void_RawEvent::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const RawEvent& event) mutable -> void {
+      swiftClosure.call(event);
+    };
+  }
+  
   // pragma MARK: std::shared_ptr<HybridReactNativeIcloudSpec>
   std::shared_ptr<HybridReactNativeIcloudSpec> create_std__shared_ptr_HybridReactNativeIcloudSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeIcloud::HybridReactNativeIcloudSpec_cxx swiftPart = ReactNativeIcloud::HybridReactNativeIcloudSpec_cxx::fromUnsafe(swiftUnsafePointer);

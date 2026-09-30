@@ -12,9 +12,33 @@
 // Forward declaration of `HybridReactNativeIcloudSpec_cxx` to properly resolve imports.
 namespace ReactNativeIcloud { class HybridReactNativeIcloudSpec_cxx; }
 
+// Forward declaration of `NativeConfig` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct NativeConfig; }
+// Forward declaration of `ContainerInfo` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct ContainerInfo; }
+// Forward declaration of `ContainerSource` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class ContainerSource; }
+// Forward declaration of `RawStat` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawStat; }
+// Forward declaration of `RawEvent` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawEvent; }
+// Forward declaration of `RawEventType` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class RawEventType; }
+// Forward declaration of `KeyValueChangeReason` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class KeyValueChangeReason; }
 
-
-
+#include "NativeConfig.hpp"
+#include <string>
+#include <optional>
+#include "ContainerInfo.hpp"
+#include <NitroModules/Promise.hpp>
+#include "ContainerSource.hpp"
+#include "RawStat.hpp"
+#include <vector>
+#include "RawEvent.hpp"
+#include <functional>
+#include "RawEventType.hpp"
+#include "KeyValueChangeReason.hpp"
 
 #include "ReactNativeIcloud-Swift-Cxx-Umbrella.hpp"
 
@@ -66,13 +90,141 @@ namespace margelo::nitro::ltatarev_reactnativeicloud {
 
   public:
     // Methods
-    inline double multiply(double a, double b) override {
-      auto __result = _swiftPart.multiply(std::forward<decltype(a)>(a), std::forward<decltype(b)>(b));
+    inline void configure(const NativeConfig& config) override {
+      auto __result = _swiftPart.configure(std::forward<decltype(config)>(config));
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
+    inline std::shared_ptr<Promise<ContainerInfo>> containerInfo() override {
+      auto __result = _swiftPart.containerInfo();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
       auto __value = std::move(__result.value());
       return __value;
+    }
+    inline std::shared_ptr<Promise<bool>> isAvailable() override {
+      auto __result = _swiftPart.isAvailable();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<std::optional<std::string>>> read(const std::string& name, double timeoutMs) override {
+      auto __result = _swiftPart.read(name, std::forward<decltype(timeoutMs)>(timeoutMs));
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> write(const std::string& name, const std::string& data) override {
+      auto __result = _swiftPart.write(name, data);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<std::optional<RawStat>>> stat(const std::string& name, double timeoutMs) override {
+      auto __result = _swiftPart.stat(name, std::forward<decltype(timeoutMs)>(timeoutMs));
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> remove(const std::string& name) override {
+      auto __result = _swiftPart.remove(name);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<std::vector<RawStat>>> list(const std::string& directory) override {
+      auto __result = _swiftPart.list(directory);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> startDownload(const std::string& name) override {
+      auto __result = _swiftPart.startDownload(name);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> copyIn(const std::string& localPath, const std::string& name) override {
+      auto __result = _swiftPart.copyIn(localPath, name);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<bool>> copyOut(const std::string& name, const std::string& localPath, double timeoutMs) override {
+      auto __result = _swiftPart.copyOut(name, localPath, std::forward<decltype(timeoutMs)>(timeoutMs));
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::optional<std::string> kvGet(const std::string& key) override {
+      auto __result = _swiftPart.kvGet(key);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline void kvSet(const std::string& key, const std::string& value) override {
+      auto __result = _swiftPart.kvSet(key, value);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
+    inline void kvRemove(const std::string& key) override {
+      auto __result = _swiftPart.kvRemove(key);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
+    inline std::vector<std::string> kvKeys() override {
+      auto __result = _swiftPart.kvKeys();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<bool>> kvSynchronize() override {
+      auto __result = _swiftPart.kvSynchronize();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline double addListener(const std::function<void(const RawEvent& /* event */)>& listener) override {
+      auto __result = _swiftPart.addListener(listener);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline void removeListener(double id) override {
+      auto __result = _swiftPart.removeListener(std::forward<decltype(id)>(id));
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
     }
 
   private:

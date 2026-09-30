@@ -8,18 +8,42 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `ContainerInfo` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct ContainerInfo; }
+// Forward declaration of `ContainerSource` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class ContainerSource; }
 // Forward declaration of `HybridReactNativeIcloudSpec` to properly resolve imports.
 namespace margelo::nitro::ltatarev_reactnativeicloud { class HybridReactNativeIcloudSpec; }
+// Forward declaration of `KeyValueChangeReason` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class KeyValueChangeReason; }
+// Forward declaration of `RawEventType` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { enum class RawEventType; }
+// Forward declaration of `RawEvent` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawEvent; }
+// Forward declaration of `RawStat` to properly resolve imports.
+namespace margelo::nitro::ltatarev_reactnativeicloud { struct RawStat; }
 
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridReactNativeIcloudSpec_cxx` to properly resolve imports.
 namespace ReactNativeIcloud { class HybridReactNativeIcloudSpec_cxx; }
 
 // Include C++ defined types
+#include "ContainerInfo.hpp"
+#include "ContainerSource.hpp"
 #include "HybridReactNativeIcloudSpec.hpp"
+#include "KeyValueChangeReason.hpp"
+#include "RawEvent.hpp"
+#include "RawEventType.hpp"
+#include "RawStat.hpp"
+#include <NitroModules/Promise.hpp>
+#include <NitroModules/PromiseHolder.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <string>
+#include <vector>
 
 /**
  * Contains specialized versions of C++ templated types so they can be accessed from Swift,
@@ -27,6 +51,336 @@ namespace ReactNativeIcloud { class HybridReactNativeIcloudSpec_cxx; }
  */
 namespace margelo::nitro::ltatarev_reactnativeicloud::bridge::swift {
 
+  // pragma MARK: std::optional<std::string>
+  /**
+   * Specialized version of `std::optional<std::string>`.
+   */
+  using std__optional_std__string_ = std::optional<std::string>;
+  inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) noexcept {
+    return std::optional<std::string>(value);
+  }
+  inline bool has_value_std__optional_std__string_(const std::optional<std::string>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::string get_std__optional_std__string_(const std::optional<std::string>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<ContainerInfo>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<ContainerInfo>>`.
+   */
+  using std__shared_ptr_Promise_ContainerInfo__ = std::shared_ptr<Promise<ContainerInfo>>;
+  inline std::shared_ptr<Promise<ContainerInfo>> create_std__shared_ptr_Promise_ContainerInfo__() noexcept {
+    return Promise<ContainerInfo>::create();
+  }
+  inline PromiseHolder<ContainerInfo> wrap_std__shared_ptr_Promise_ContainerInfo__(std::shared_ptr<Promise<ContainerInfo>> promise) noexcept {
+    return PromiseHolder<ContainerInfo>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const ContainerInfo& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const ContainerInfo&)>`.
+   */
+  using Func_void_ContainerInfo = std::function<void(const ContainerInfo& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const ContainerInfo& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_ContainerInfo_Wrapper final {
+  public:
+    explicit Func_void_ContainerInfo_Wrapper(std::function<void(const ContainerInfo& /* result */)>&& func): _function(std::make_unique<std::function<void(const ContainerInfo& /* result */)>>(std::move(func))) {}
+    inline void call(ContainerInfo result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const ContainerInfo& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_ContainerInfo create_Func_void_ContainerInfo(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_ContainerInfo_Wrapper wrap_Func_void_ContainerInfo(Func_void_ContainerInfo value) noexcept {
+    return Func_void_ContainerInfo_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
+  /**
+   * Specialized version of `std::function<void(const std::exception_ptr&)>`.
+   */
+  using Func_void_std__exception_ptr = std::function<void(const std::exception_ptr& /* error */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::exception_ptr& / * error * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__exception_ptr_Wrapper final {
+  public:
+    explicit Func_void_std__exception_ptr_Wrapper(std::function<void(const std::exception_ptr& /* error */)>&& func): _function(std::make_unique<std::function<void(const std::exception_ptr& /* error */)>>(std::move(func))) {}
+    inline void call(std::exception_ptr error) const noexcept {
+      _function->operator()(error);
+    }
+  private:
+    std::unique_ptr<std::function<void(const std::exception_ptr& /* error */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__exception_ptr_Wrapper wrap_Func_void_std__exception_ptr(Func_void_std__exception_ptr value) noexcept {
+    return Func_void_std__exception_ptr_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<bool>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<bool>>`.
+   */
+  using std__shared_ptr_Promise_bool__ = std::shared_ptr<Promise<bool>>;
+  inline std::shared_ptr<Promise<bool>> create_std__shared_ptr_Promise_bool__() noexcept {
+    return Promise<bool>::create();
+  }
+  inline PromiseHolder<bool> wrap_std__shared_ptr_Promise_bool__(std::shared_ptr<Promise<bool>> promise) noexcept {
+    return PromiseHolder<bool>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(bool /* result */)>
+  /**
+   * Specialized version of `std::function<void(bool)>`.
+   */
+  using Func_void_bool = std::function<void(bool /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(bool / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_bool_Wrapper final {
+  public:
+    explicit Func_void_bool_Wrapper(std::function<void(bool /* result */)>&& func): _function(std::make_unique<std::function<void(bool /* result */)>>(std::move(func))) {}
+    inline void call(bool result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(bool /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_bool create_Func_void_bool(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_bool_Wrapper wrap_Func_void_bool(Func_void_bool value) noexcept {
+    return Func_void_bool_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<std::optional<std::string>>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<std::optional<std::string>>>`.
+   */
+  using std__shared_ptr_Promise_std__optional_std__string___ = std::shared_ptr<Promise<std::optional<std::string>>>;
+  inline std::shared_ptr<Promise<std::optional<std::string>>> create_std__shared_ptr_Promise_std__optional_std__string___() noexcept {
+    return Promise<std::optional<std::string>>::create();
+  }
+  inline PromiseHolder<std::optional<std::string>> wrap_std__shared_ptr_Promise_std__optional_std__string___(std::shared_ptr<Promise<std::optional<std::string>>> promise) noexcept {
+    return PromiseHolder<std::optional<std::string>>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const std::optional<std::string>& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const std::optional<std::string>&)>`.
+   */
+  using Func_void_std__optional_std__string_ = std::function<void(const std::optional<std::string>& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::optional<std::string>& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__optional_std__string__Wrapper final {
+  public:
+    explicit Func_void_std__optional_std__string__Wrapper(std::function<void(const std::optional<std::string>& /* result */)>&& func): _function(std::make_unique<std::function<void(const std::optional<std::string>& /* result */)>>(std::move(func))) {}
+    inline void call(std::optional<std::string> result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const std::optional<std::string>& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__optional_std__string_ create_Func_void_std__optional_std__string_(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__optional_std__string__Wrapper wrap_Func_void_std__optional_std__string_(Func_void_std__optional_std__string_ value) noexcept {
+    return Func_void_std__optional_std__string__Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<void>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<void>>`.
+   */
+  using std__shared_ptr_Promise_void__ = std::shared_ptr<Promise<void>>;
+  inline std::shared_ptr<Promise<void>> create_std__shared_ptr_Promise_void__() noexcept {
+    return Promise<void>::create();
+  }
+  inline PromiseHolder<void> wrap_std__shared_ptr_Promise_void__(std::shared_ptr<Promise<void>> promise) noexcept {
+    return PromiseHolder<void>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void()>
+  /**
+   * Specialized version of `std::function<void()>`.
+   */
+  using Func_void = std::function<void()>;
+  /**
+   * Wrapper class for a `std::function<void()>`, this can be used from Swift.
+   */
+  class Func_void_Wrapper final {
+  public:
+    explicit Func_void_Wrapper(std::function<void()>&& func): _function(std::make_unique<std::function<void()>>(std::move(func))) {}
+    inline void call() const noexcept {
+      _function->operator()();
+    }
+  private:
+    std::unique_ptr<std::function<void()>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void create_Func_void(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_Wrapper wrap_Func_void(Func_void value) noexcept {
+    return Func_void_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::optional<RawStat>
+  /**
+   * Specialized version of `std::optional<RawStat>`.
+   */
+  using std__optional_RawStat_ = std::optional<RawStat>;
+  inline std::optional<RawStat> create_std__optional_RawStat_(const RawStat& value) noexcept {
+    return std::optional<RawStat>(value);
+  }
+  inline bool has_value_std__optional_RawStat_(const std::optional<RawStat>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline RawStat get_std__optional_RawStat_(const std::optional<RawStat>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<std::optional<RawStat>>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<std::optional<RawStat>>>`.
+   */
+  using std__shared_ptr_Promise_std__optional_RawStat___ = std::shared_ptr<Promise<std::optional<RawStat>>>;
+  inline std::shared_ptr<Promise<std::optional<RawStat>>> create_std__shared_ptr_Promise_std__optional_RawStat___() noexcept {
+    return Promise<std::optional<RawStat>>::create();
+  }
+  inline PromiseHolder<std::optional<RawStat>> wrap_std__shared_ptr_Promise_std__optional_RawStat___(std::shared_ptr<Promise<std::optional<RawStat>>> promise) noexcept {
+    return PromiseHolder<std::optional<RawStat>>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const std::optional<RawStat>& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const std::optional<RawStat>&)>`.
+   */
+  using Func_void_std__optional_RawStat_ = std::function<void(const std::optional<RawStat>& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::optional<RawStat>& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__optional_RawStat__Wrapper final {
+  public:
+    explicit Func_void_std__optional_RawStat__Wrapper(std::function<void(const std::optional<RawStat>& /* result */)>&& func): _function(std::make_unique<std::function<void(const std::optional<RawStat>& /* result */)>>(std::move(func))) {}
+    inline void call(std::optional<RawStat> result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const std::optional<RawStat>& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__optional_RawStat_ create_Func_void_std__optional_RawStat_(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__optional_RawStat__Wrapper wrap_Func_void_std__optional_RawStat_(Func_void_std__optional_RawStat_ value) noexcept {
+    return Func_void_std__optional_RawStat__Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::vector<RawStat>
+  /**
+   * Specialized version of `std::vector<RawStat>`.
+   */
+  using std__vector_RawStat_ = std::vector<RawStat>;
+  inline std::vector<RawStat> create_std__vector_RawStat_(size_t size) noexcept {
+    std::vector<RawStat> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<std::vector<RawStat>>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<std::vector<RawStat>>>`.
+   */
+  using std__shared_ptr_Promise_std__vector_RawStat___ = std::shared_ptr<Promise<std::vector<RawStat>>>;
+  inline std::shared_ptr<Promise<std::vector<RawStat>>> create_std__shared_ptr_Promise_std__vector_RawStat___() noexcept {
+    return Promise<std::vector<RawStat>>::create();
+  }
+  inline PromiseHolder<std::vector<RawStat>> wrap_std__shared_ptr_Promise_std__vector_RawStat___(std::shared_ptr<Promise<std::vector<RawStat>>> promise) noexcept {
+    return PromiseHolder<std::vector<RawStat>>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const std::vector<RawStat>& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const std::vector<RawStat>&)>`.
+   */
+  using Func_void_std__vector_RawStat_ = std::function<void(const std::vector<RawStat>& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::vector<RawStat>& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__vector_RawStat__Wrapper final {
+  public:
+    explicit Func_void_std__vector_RawStat__Wrapper(std::function<void(const std::vector<RawStat>& /* result */)>&& func): _function(std::make_unique<std::function<void(const std::vector<RawStat>& /* result */)>>(std::move(func))) {}
+    inline void call(std::vector<RawStat> result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const std::vector<RawStat>& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__vector_RawStat_ create_Func_void_std__vector_RawStat_(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__vector_RawStat__Wrapper wrap_Func_void_std__vector_RawStat_(Func_void_std__vector_RawStat_ value) noexcept {
+    return Func_void_std__vector_RawStat__Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::vector<std::string>
+  /**
+   * Specialized version of `std::vector<std::string>`.
+   */
+  using std__vector_std__string_ = std::vector<std::string>;
+  inline std::vector<std::string> create_std__vector_std__string_(size_t size) noexcept {
+    std::vector<std::string> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::optional<KeyValueChangeReason>
+  /**
+   * Specialized version of `std::optional<KeyValueChangeReason>`.
+   */
+  using std__optional_KeyValueChangeReason_ = std::optional<KeyValueChangeReason>;
+  inline std::optional<KeyValueChangeReason> create_std__optional_KeyValueChangeReason_(const KeyValueChangeReason& value) noexcept {
+    return std::optional<KeyValueChangeReason>(value);
+  }
+  inline bool has_value_std__optional_KeyValueChangeReason_(const std::optional<KeyValueChangeReason>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline KeyValueChangeReason get_std__optional_KeyValueChangeReason_(const std::optional<KeyValueChangeReason>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::optional<bool>
+  /**
+   * Specialized version of `std::optional<bool>`.
+   */
+  using std__optional_bool_ = std::optional<bool>;
+  inline std::optional<bool> create_std__optional_bool_(const bool& value) noexcept {
+    return std::optional<bool>(value);
+  }
+  inline bool has_value_std__optional_bool_(const std::optional<bool>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline bool get_std__optional_bool_(const std::optional<bool>& optional) noexcept {
+    return optional.value();
+  }
+  
+  // pragma MARK: std::function<void(const RawEvent& /* event */)>
+  /**
+   * Specialized version of `std::function<void(const RawEvent&)>`.
+   */
+  using Func_void_RawEvent = std::function<void(const RawEvent& /* event */)>;
+  /**
+   * Wrapper class for a `std::function<void(const RawEvent& / * event * /)>`, this can be used from Swift.
+   */
+  class Func_void_RawEvent_Wrapper final {
+  public:
+    explicit Func_void_RawEvent_Wrapper(std::function<void(const RawEvent& /* event */)>&& func): _function(std::make_unique<std::function<void(const RawEvent& /* event */)>>(std::move(func))) {}
+    inline void call(RawEvent event) const noexcept {
+      _function->operator()(event);
+    }
+  private:
+    std::unique_ptr<std::function<void(const RawEvent& /* event */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_RawEvent create_Func_void_RawEvent(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_RawEvent_Wrapper wrap_Func_void_RawEvent(Func_void_RawEvent value) noexcept {
+    return Func_void_RawEvent_Wrapper(std::move(value));
+  }
+  
   // pragma MARK: std::shared_ptr<HybridReactNativeIcloudSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridReactNativeIcloudSpec>`.
@@ -38,6 +392,87 @@ namespace margelo::nitro::ltatarev_reactnativeicloud::bridge::swift {
   // pragma MARK: std::weak_ptr<HybridReactNativeIcloudSpec>
   using std__weak_ptr_HybridReactNativeIcloudSpec_ = std::weak_ptr<HybridReactNativeIcloudSpec>;
   inline std__weak_ptr_HybridReactNativeIcloudSpec_ weakify_std__shared_ptr_HybridReactNativeIcloudSpec_(const std::shared_ptr<HybridReactNativeIcloudSpec>& strong) noexcept { return strong; }
+  
+  // pragma MARK: Result<void>
+  using Result_void_ = Result<void>;
+  inline Result_void_ create_Result_void_() noexcept {
+    return Result<void>::withValue();
+  }
+  inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
+    return Result<void>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<ContainerInfo>>>
+  using Result_std__shared_ptr_Promise_ContainerInfo___ = Result<std::shared_ptr<Promise<ContainerInfo>>>;
+  inline Result_std__shared_ptr_Promise_ContainerInfo___ create_Result_std__shared_ptr_Promise_ContainerInfo___(const std::shared_ptr<Promise<ContainerInfo>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<ContainerInfo>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_ContainerInfo___ create_Result_std__shared_ptr_Promise_ContainerInfo___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<ContainerInfo>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<bool>>>
+  using Result_std__shared_ptr_Promise_bool___ = Result<std::shared_ptr<Promise<bool>>>;
+  inline Result_std__shared_ptr_Promise_bool___ create_Result_std__shared_ptr_Promise_bool___(const std::shared_ptr<Promise<bool>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<bool>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_bool___ create_Result_std__shared_ptr_Promise_bool___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<bool>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<std::optional<std::string>>>>
+  using Result_std__shared_ptr_Promise_std__optional_std__string____ = Result<std::shared_ptr<Promise<std::optional<std::string>>>>;
+  inline Result_std__shared_ptr_Promise_std__optional_std__string____ create_Result_std__shared_ptr_Promise_std__optional_std__string____(const std::shared_ptr<Promise<std::optional<std::string>>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<std::optional<std::string>>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_std__optional_std__string____ create_Result_std__shared_ptr_Promise_std__optional_std__string____(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<std::optional<std::string>>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<void>>>
+  using Result_std__shared_ptr_Promise_void___ = Result<std::shared_ptr<Promise<void>>>;
+  inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::shared_ptr<Promise<void>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<void>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<void>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<std::optional<RawStat>>>>
+  using Result_std__shared_ptr_Promise_std__optional_RawStat____ = Result<std::shared_ptr<Promise<std::optional<RawStat>>>>;
+  inline Result_std__shared_ptr_Promise_std__optional_RawStat____ create_Result_std__shared_ptr_Promise_std__optional_RawStat____(const std::shared_ptr<Promise<std::optional<RawStat>>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<std::optional<RawStat>>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_std__optional_RawStat____ create_Result_std__shared_ptr_Promise_std__optional_RawStat____(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<std::optional<RawStat>>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<RawStat>>>>
+  using Result_std__shared_ptr_Promise_std__vector_RawStat____ = Result<std::shared_ptr<Promise<std::vector<RawStat>>>>;
+  inline Result_std__shared_ptr_Promise_std__vector_RawStat____ create_Result_std__shared_ptr_Promise_std__vector_RawStat____(const std::shared_ptr<Promise<std::vector<RawStat>>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<std::vector<RawStat>>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_std__vector_RawStat____ create_Result_std__shared_ptr_Promise_std__vector_RawStat____(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<std::vector<RawStat>>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::optional<std::string>>
+  using Result_std__optional_std__string__ = Result<std::optional<std::string>>;
+  inline Result_std__optional_std__string__ create_Result_std__optional_std__string__(const std::optional<std::string>& value) noexcept {
+    return Result<std::optional<std::string>>::withValue(value);
+  }
+  inline Result_std__optional_std__string__ create_Result_std__optional_std__string__(const std::exception_ptr& error) noexcept {
+    return Result<std::optional<std::string>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::vector<std::string>>
+  using Result_std__vector_std__string__ = Result<std::vector<std::string>>;
+  inline Result_std__vector_std__string__ create_Result_std__vector_std__string__(const std::vector<std::string>& value) noexcept {
+    return Result<std::vector<std::string>>::withValue(value);
+  }
+  inline Result_std__vector_std__string__ create_Result_std__vector_std__string__(const std::exception_ptr& error) noexcept {
+    return Result<std::vector<std::string>>::withError(error);
+  }
   
   // pragma MARK: Result<double>
   using Result_double_ = Result<double>;

@@ -13,7 +13,24 @@ public protocol HybridReactNativeIcloudSpec_protocol: HybridObject {
   
 
   // Methods
-  func multiply(a: Double, b: Double) throws -> Double
+  func configure(config: NativeConfig) throws -> Void
+  func containerInfo() throws -> Promise<ContainerInfo>
+  func isAvailable() throws -> Promise<Bool>
+  func read(name: String, timeoutMs: Double) throws -> Promise<String?>
+  func write(name: String, data: String) throws -> Promise<Void>
+  func stat(name: String, timeoutMs: Double) throws -> Promise<RawStat?>
+  func remove(name: String) throws -> Promise<Void>
+  func list(directory: String) throws -> Promise<[RawStat]>
+  func startDownload(name: String) throws -> Promise<Void>
+  func copyIn(localPath: String, name: String) throws -> Promise<Void>
+  func copyOut(name: String, localPath: String, timeoutMs: Double) throws -> Promise<Bool>
+  func kvGet(key: String) throws -> String?
+  func kvSet(key: String, value: String) throws -> Void
+  func kvRemove(key: String) throws -> Void
+  func kvKeys() throws -> [String]
+  func kvSynchronize() throws -> Promise<Bool>
+  func addListener(listener: @escaping (_ event: RawEvent) -> Void) throws -> Double
+  func removeListener(id: Double) throws -> Void
 }
 
 public extension HybridReactNativeIcloudSpec_protocol {

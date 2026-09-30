@@ -125,14 +125,326 @@ open class HybridReactNativeIcloudSpec_cxx {
 
   // Methods
   @inline(__always)
-  public final func multiply(a: Double, b: Double) -> bridge.Result_double_ {
+  public final func configure(config: NativeConfig) -> bridge.Result_void_ {
     do {
-      let __result = try self.__implementation.multiply(a: a, b: b)
+      try self.__implementation.configure(config: config)
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func containerInfo() -> bridge.Result_std__shared_ptr_Promise_ContainerInfo___ {
+    do {
+      let __result = try self.__implementation.containerInfo()
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_ContainerInfo__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_ContainerInfo__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_ContainerInfo__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_ContainerInfo___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_ContainerInfo___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func isAvailable() -> bridge.Result_std__shared_ptr_Promise_bool___ {
+    do {
+      let __result = try self.__implementation.isAvailable()
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_bool__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_bool__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_bool__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_bool___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_bool___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func read(name: std.string, timeoutMs: Double) -> bridge.Result_std__shared_ptr_Promise_std__optional_std__string____ {
+    do {
+      let __result = try self.__implementation.read(name: String(name), timeoutMs: timeoutMs)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__optional_std__string___ in
+        let __promise = bridge.create_std__shared_ptr_Promise_std__optional_std__string___()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__optional_std__string___(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve({ () -> bridge.std__optional_std__string_ in
+              if let __unwrappedValue = __result {
+                return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+              } else {
+                return .init()
+              }
+            }()) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_std__optional_std__string____(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_std__optional_std__string____(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func write(name: std.string, data: std.string) -> bridge.Result_std__shared_ptr_Promise_void___ {
+    do {
+      let __result = try self.__implementation.write(name: String(name), data: String(data))
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve() })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func stat(name: std.string, timeoutMs: Double) -> bridge.Result_std__shared_ptr_Promise_std__optional_RawStat____ {
+    do {
+      let __result = try self.__implementation.stat(name: String(name), timeoutMs: timeoutMs)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__optional_RawStat___ in
+        let __promise = bridge.create_std__shared_ptr_Promise_std__optional_RawStat___()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__optional_RawStat___(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve({ () -> bridge.std__optional_RawStat_ in
+              if let __unwrappedValue = __result {
+                return bridge.create_std__optional_RawStat_(__unwrappedValue)
+              } else {
+                return .init()
+              }
+            }()) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_std__optional_RawStat____(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_std__optional_RawStat____(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func remove(name: std.string) -> bridge.Result_std__shared_ptr_Promise_void___ {
+    do {
+      let __result = try self.__implementation.remove(name: String(name))
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve() })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func list(directory: std.string) -> bridge.Result_std__shared_ptr_Promise_std__vector_RawStat____ {
+    do {
+      let __result = try self.__implementation.list(directory: String(directory))
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__vector_RawStat___ in
+        let __promise = bridge.create_std__shared_ptr_Promise_std__vector_RawStat___()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_RawStat___(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve({ () -> bridge.std__vector_RawStat_ in
+              var __vector = bridge.create_std__vector_RawStat_(__result.count)
+              for __item in __result {
+                __vector.push_back(__item)
+              }
+              return __vector
+            }()) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_RawStat____(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_RawStat____(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func startDownload(name: std.string) -> bridge.Result_std__shared_ptr_Promise_void___ {
+    do {
+      let __result = try self.__implementation.startDownload(name: String(name))
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve() })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func copyIn(localPath: std.string, name: std.string) -> bridge.Result_std__shared_ptr_Promise_void___ {
+    do {
+      let __result = try self.__implementation.copyIn(localPath: String(localPath), name: String(name))
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve() })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func copyOut(name: std.string, localPath: std.string, timeoutMs: Double) -> bridge.Result_std__shared_ptr_Promise_bool___ {
+    do {
+      let __result = try self.__implementation.copyOut(name: String(name), localPath: String(localPath), timeoutMs: timeoutMs)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_bool__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_bool__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_bool__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_bool___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_bool___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func kvGet(key: std.string) -> bridge.Result_std__optional_std__string__ {
+    do {
+      let __result = try self.__implementation.kvGet(key: String(key))
+      let __resultCpp = { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = __result {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        } else {
+          return .init()
+        }
+      }()
+      return bridge.create_Result_std__optional_std__string__(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__optional_std__string__(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func kvSet(key: std.string, value: std.string) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.kvSet(key: String(key), value: String(value))
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func kvRemove(key: std.string) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.kvRemove(key: String(key))
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func kvKeys() -> bridge.Result_std__vector_std__string__ {
+    do {
+      let __result = try self.__implementation.kvKeys()
+      let __resultCpp = { () -> bridge.std__vector_std__string_ in
+        var __vector = bridge.create_std__vector_std__string_(__result.count)
+        for __item in __result {
+          __vector.push_back(std.string(__item))
+        }
+        return __vector
+      }()
+      return bridge.create_Result_std__vector_std__string__(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__vector_std__string__(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func kvSynchronize() -> bridge.Result_std__shared_ptr_Promise_bool___ {
+    do {
+      let __result = try self.__implementation.kvSynchronize()
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_bool__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_bool__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_bool__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_bool___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_bool___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func addListener(listener: bridge.Func_void_RawEvent) -> bridge.Result_double_ {
+    do {
+      let __result = try self.__implementation.addListener(listener: { () -> (RawEvent) -> Void in
+        let __wrappedFunction = bridge.wrap_Func_void_RawEvent(listener)
+        return { (__event: RawEvent) -> Void in
+          __wrappedFunction.call(__event)
+        }
+      }())
       let __resultCpp = __result
       return bridge.create_Result_double_(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_double_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func removeListener(id: Double) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.removeListener(id: id)
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
     }
   }
 }
