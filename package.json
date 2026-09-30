@@ -1,0 +1,26 @@
+{
+  "name": "@ltatarev/react-native-icloud",
+  "version": "0.0.0",
+  "private": true,
+  "description": "iCloud container, documents, file transfer and key-value store for React Native",
+  "main": "src/index",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing/index.ts",
+    "./package.json": "./package.json"
+  },
+  "author": "Lucija Tatarević",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/ltatarev/react-native-instagram-feed/tree/main/packages/react-native-icloud",
+  "create-react-native-library": {
+    "type": "nitro-module",
+    "languages": "kotlin-swift",
+    "tools": [
+      "eslint",
+      "jest",
+      "lefthook",
+      "release-it"
+    ],
+    "version": "0.63.1"
+  }
+}

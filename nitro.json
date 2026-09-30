@@ -1,0 +1,19 @@
+{
+  "cxxNamespace": ["ltatarev_reactnativeicloud"],
+  "ios": {
+    "iosModuleName": "ReactNativeIcloud"
+  },
+  "android": {
+    "androidNamespace": ["ltatarev", "reactnativeicloud"],
+    "androidCxxLibName": "ltatarev_reactnativeicloud"
+  },
+  "autolinking": {
+    "ReactNativeIcloud": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "ReactNativeIcloud"
+      }
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}
