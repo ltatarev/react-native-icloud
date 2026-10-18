@@ -38,8 +38,9 @@ export function toICloudError(error: unknown): ICloudError {
   const message =
     error instanceof Error ? error.message : String(error ?? 'Unknown error');
   const match = NATIVE_MESSAGE.exec(message);
-  if (match && isErrorCode(match[1])) {
-    return new ICloudError(match[1], match[2], error);
+  const [, code = '', text = ''] = match ?? [];
+  if (isErrorCode(code)) {
+    return new ICloudError(code, text, error);
   }
   return new ICloudError('coordinationFailed', message, error);
 }

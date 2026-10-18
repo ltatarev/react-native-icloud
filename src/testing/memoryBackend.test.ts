@@ -2,14 +2,18 @@ import { createMemoryICloudStore } from './index';
 
 describe('createMemoryICloudStore', () => {
   it('reads seeded documents and resolves undefined for absent ones', async () => {
-    const store = createMemoryICloudStore({ documents: { 'a.json': '{"a":1}' } });
+    const store = createMemoryICloudStore({
+      documents: { 'a.json': '{"a":1}' },
+    });
 
     await expect(store.doc('a.json').read()).resolves.toEqual({ a: 1 });
     await expect(store.doc('missing').read()).resolves.toBeUndefined();
   });
 
   it('rejects a placeholder read with downloadTimeout until it downloads', async () => {
-    const store = createMemoryICloudStore({ documents: { 'state.lumee': 'x' } });
+    const store = createMemoryICloudStore({
+      documents: { 'state.lumee': 'x' },
+    });
     store.setDownloaded('state.lumee', false);
 
     await expect(store.doc('state.lumee').readRaw()).rejects.toMatchObject({
@@ -52,7 +56,9 @@ describe('createMemoryICloudStore', () => {
   });
 
   it('copies files between the device and the container', async () => {
-    const store = createMemoryICloudStore({ localFiles: { '/local/a.jpg': 'aa' } });
+    const store = createMemoryICloudStore({
+      localFiles: { '/local/a.jpg': 'aa' },
+    });
 
     await store.files.upload('/local/a.jpg', 'images/a.jpg');
     await expect(
@@ -104,7 +110,9 @@ describe('createMemoryICloudStore', () => {
   });
 
   it('emits documentsChanged for a remote write, with a newer date', async () => {
-    const store = createMemoryICloudStore({ documents: { 'state.lumee': 'old' } });
+    const store = createMemoryICloudStore({
+      documents: { 'state.lumee': 'old' },
+    });
     const listener = jest.fn();
     store.subscribe(listener);
     const before = await store.doc('state.lumee').stat();

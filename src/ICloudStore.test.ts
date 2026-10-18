@@ -126,7 +126,10 @@ describe('documents', () => {
     const onError = jest.fn();
     const store = createStoreWithBackend(backend, { onError });
 
-    const error = await store.doc('state.lumee').readRaw().catch(e => e);
+    const error = await store
+      .doc('state.lumee')
+      .readRaw()
+      .catch(e => e);
 
     expect(error).toBeInstanceOf(ICloudError);
     expect(error).toMatchObject({ code: 'downloadTimeout', message: 'slow' });
@@ -235,9 +238,9 @@ describe('files', () => {
     backend.copyOut.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
     const store = createStoreWithBackend(backend, { downloadTimeoutMs: 5000 });
 
-    await expect(store.files.download('images/a.jpg', '/local/a.jpg')).resolves.toBe(
-      '/local/a.jpg',
-    );
+    await expect(
+      store.files.download('images/a.jpg', '/local/a.jpg'),
+    ).resolves.toBe('/local/a.jpg');
     await expect(
       store.files.download('images/b.jpg', '/local/b.jpg'),
     ).resolves.toBeUndefined();

@@ -75,8 +75,7 @@ export function createMemoryBackend(
   let nextListenerId = 1;
   let isAvailable = true;
   let pendingFailure:
-    | { code: ICloudErrorCode; operation?: MemoryOperation }
-    | undefined;
+    { code: ICloudErrorCode; operation?: MemoryOperation } | undefined;
   let config: NativeConfig = { directory: 'Documents' };
   let lastModifiedAt = 0;
 
@@ -193,7 +192,9 @@ export function createMemoryBackend(
       run('copyIn', () => {
         const data = localFiles.get(localPath);
         if (data === undefined) {
-          throw new Error(`[notFound] The source file does not exist: ${localPath}`);
+          throw new Error(
+            `[notFound] The source file does not exist: ${localPath}`,
+          );
         }
         items.set(name, { data, isDownloaded: true, modifiedAt: now() });
       }),
@@ -233,7 +234,7 @@ export function createMemoryBackend(
             continue;
           }
           const rest = directory === '' ? key : key.slice(directory.length + 1);
-          const child = rest.split('/')[0];
+          const [child = rest] = rest.split('/');
           names.add(directory === '' ? child : `${directory}/${child}`);
         }
         return [...names]

@@ -123,8 +123,7 @@ export function createStoreWithBackend(
       });
       return result;
     } catch (error) {
-      const iCloudError =
-        error instanceof ICloudError ? error : fail(error);
+      const iCloudError = error instanceof ICloudError ? error : fail(error);
       onLog({
         code: iCloudError.code,
         durationMs: Date.now() - startedAt,
@@ -185,9 +184,7 @@ export function createStoreWithBackend(
   };
 
   const remove = (name: string): Promise<void> =>
-    trackWrite(name, () =>
-      call('remove', name, native => native.remove(name)),
-    );
+    trackWrite(name, () => call('remove', name, native => native.remove(name)));
 
   const stat = async (
     name: string,

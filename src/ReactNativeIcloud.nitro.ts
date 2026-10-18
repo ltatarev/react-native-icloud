@@ -33,9 +33,7 @@ export interface RawStat {
 }
 
 export type RawEventType =
-  | 'documentsChanged'
-  | 'keyValueChanged'
-  | 'availabilityChanged';
+  'documentsChanged' | 'keyValueChanged' | 'availabilityChanged';
 
 export type KeyValueChangeReason =
   | 'serverChange'
@@ -58,8 +56,7 @@ export interface RawEvent {
  * The native iCloud backend. Failures reject with a message that starts
  * with `[<ICloudErrorCode>]`. The JS store maps them to `ICloudError`.
  */
-export interface ReactNativeIcloud
-  extends HybridObject<{ ios: 'swift' }> {
+export interface ReactNativeIcloud extends HybridObject<{ ios: 'swift' }> {
   /** Set the container and directory. Call before any other method. */
   configure(config: NativeConfig): void;
   containerInfo(): Promise<ContainerInfo>;

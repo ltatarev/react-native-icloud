@@ -54,7 +54,8 @@ export async function runDiagnostics({
     return result;
   }
 
-  const requested = result.requestedContainer ?? 'the first entitlement container';
+  const requested =
+    result.requestedContainer ?? 'the first entitlement container';
   if (!result.isSignedIn) {
     result.problems.push('No iCloud account is signed in on this device.');
     return result;
