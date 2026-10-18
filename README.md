@@ -10,17 +10,19 @@ how to merge it.
 
 ## Install
 
-The package lives in this repository and is linked with Yarn:
+The package is not on npm yet. Clone this repository next to the app, run
+`yarn prepare` in it, and link it:
 
 ```json
-"@ltatarev/react-native-icloud": "link:./packages/react-native-icloud"
+"@ltatarev/react-native-icloud": "link:../react-native-icloud"
 ```
 
-The app must also depend on `react-native-nitro-modules`. After you install,
-run `pod install` in `ios/`.
+The app must also depend on `react-native-nitro-modules` 0.36.5 or later.
+After you install, run `pod install` in `ios/`.
 
-When you change `src/ReactNativeIcloud.nitro.ts`, run `yarn nitrogen` and
-commit `nitrogen/generated/`. Xcode Cloud does not run nitrogen.
+The repository commits `nitrogen/generated/`, so a CI build does not have to
+run nitrogen. When you change `src/ReactNativeIcloud.nitro.ts`, run
+`yarn nitrogen` and commit the result.
 
 ## Set up iCloud
 
@@ -182,5 +184,18 @@ store.peek('state.json'); // the stored content, with no checks
 Run the package tests with:
 
 ```sh
-yarn test:unit --selectProjects react-native-icloud
+yarn test
 ```
+
+## Example app
+
+`example/` is a test bed with one button for each store method, a status
+panel and a log of every native operation. It uses its own container,
+`iCloud.com.ltatarev.icloud-example`. To run it on a device:
+
+```sh
+yarn
+yarn example ios
+```
+
+`example/TESTING.md` has the device checklist.
