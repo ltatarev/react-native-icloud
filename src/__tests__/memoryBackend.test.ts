@@ -1,4 +1,4 @@
-import { createMemoryICloudStore } from './index';
+import { createMemoryICloudStore } from '../testing';
 
 describe('createMemoryICloudStore', () => {
   it('reads seeded documents and resolves undefined for absent ones', async () => {

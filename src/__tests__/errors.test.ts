@@ -1,4 +1,4 @@
-import { ICloudError, toICloudError } from './errors';
+import { ICloudError, toICloudError } from '../errors';
 
 describe('toICloudError', () => {
   it('reads the code from a native message', () => {

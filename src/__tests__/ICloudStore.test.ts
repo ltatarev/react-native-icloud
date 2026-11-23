@@ -1,7 +1,7 @@
-import type { ICloudNativeBackend } from './native/types';
-import { ICloudError } from './errors';
-import { createStoreWithBackend } from './ICloudStore';
-import type { RawEvent, RawStat } from './ReactNativeIcloud.nitro';
+import type { ICloudNativeBackend } from '../native/types';
+import { ICloudError } from '../errors';
+import { createStoreWithBackend } from '../ICloudStore';
+import type { RawEvent, RawStat } from '../ReactNativeIcloud.nitro';
 
 type MockBackend = { [K in keyof ICloudNativeBackend]: jest.Mock };
 
@@ -190,8 +190,14 @@ describe('write serialization and idle tracking', () => {
     backend.write.mockReturnValueOnce(deferred().promise);
     const store = createStoreWithBackend(backend);
 
-    void store.doc('a').writeRaw('1');
-    void store.doc('b').writeRaw('2');
+    store
+      .doc('a')
+      .writeRaw('1')
+      .catch(() => undefined);
+    store
+      .doc('b')
+      .writeRaw('2')
+      .catch(() => undefined);
     await flush();
 
     expect(backend.write).toHaveBeenCalledTimes(2);
