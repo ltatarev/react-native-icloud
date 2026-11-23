@@ -25,13 +25,13 @@
     "nitrogen",
     "nitro.json",
     "*.podspec",
+    "CHANGELOG.md",
     "react-native.config.js",
     "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
-    "!**/.*",
-    "!**/*.test.ts"
+    "!**/.*"
   ],
   "scripts": {
     "example": "yarn workspace @ltatarev/react-native-icloud-example",
@@ -40,7 +40,9 @@
     "nitrogen": "nitrogen",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "test": "jest"
+    "test": "jest",
+    "release": "release-it",
+    "release:alpha": "release-it --preRelease=alpha"
   },
   "keywords": [
     "react-native",
@@ -72,6 +74,7 @@
     "@eslint/js": "^9.39.5",
     "@react-native/babel-preset": "0.87.1",
     "@react-native/eslint-config": "0.87.1",
+    "@release-it/conventional-changelog": "^12.0.2",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.2.0",
     "babel-jest": "^30.5.2",
@@ -87,6 +90,7 @@
     "react-native": "0.87.1",
     "react-native-builder-bob": "^0.43.2",
     "react-native-nitro-modules": "0.36.5",
+    "release-it": "^21.1.0",
     "turbo": "^2.10.8",
     "typescript": "^6.0.3"
   },
@@ -139,7 +143,8 @@
     "languages": "kotlin-swift",
     "tools": [
       "eslint",
-      "jest"
+      "jest",
+      "release-it"
     ],
     "version": "0.63.1"
   },
@@ -152,5 +157,31 @@
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
     ]
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "${version}",
+      "requireBranch": "main"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true,
+      "releaseName": "${version}"
+    },
+    "hooks": {
+      "before:init": "yarn typecheck && yarn lint && yarn test"
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": {
+          "name": "conventionalcommits"
+        },
+        "infile": "CHANGELOG.md",
+        "header": "# Changelog"
+      }
+    }
   }
 }
