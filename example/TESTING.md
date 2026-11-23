@@ -13,7 +13,7 @@ simulator can sign in to iCloud, but the sync between devices is slow there.
 3. Run `yarn` at the repo root, then `yarn example ios`, and select the
    device. The first run installs the pods.
 
-The app uses its own container. "Delete all" never touches Lumee data.
+The app uses its own container. "Delete all" never touches the data of other apps.
 
 Each button writes its result to the **Log** section at the bottom. Native
 operations show in grey with the duration and the result. Failures show in

@@ -23,14 +23,7 @@ yarn
 
 This project uses Nitro Modules. If you're not familiar with how Nitro works, make sure to check the [Nitro Modules Docs](https://nitro.margelo.com/).
 
-You need to run [Nitrogen](https://nitro.margelo.com/docs/nitrogen) to generate the boilerplate code required for this project. The example app will not build without this step.
-
-Run **Nitrogen** in following cases:
-
-- When you make changes to any `*.nitro.ts` files.
-- When running the project for the first time (since the generated files are not committed to the repository).
-
-To invoke **Nitrogen**, use the following command:
+[Nitrogen](https://nitro.margelo.com/docs/nitrogen) generates the bridge code in `nitrogen/generated/` from `src/ReactNativeIcloud.nitro.ts`. The generated files are committed. Run Nitrogen again after each change to a `*.nitro.ts` file, and commit the result:
 
 ```sh
 yarn nitrogen
@@ -40,9 +33,7 @@ The [example app](/example/) demonstrates usage of the library. You need to run 
 
 It is configured to use the local version of the library, so any changes you make to the library's source code will be reflected in the example app. Changes to the library's JavaScript code will be reflected in the example app without a rebuild, but native code changes will require a rebuild of the example app.
 
-If you want to use Android Studio or Xcode to edit the native code, you can open the `example/android` or `example/ios` directories respectively in those editors. To edit the Objective-C or Swift files, open `example/ios/ReactNativeIcloudExample.xcworkspace` in Xcode and find the source files at `Pods > Development Pods > @ltatarev/react-native-icloud`.
-
-To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `ltatarev-react-native-icloud` under `Android`.
+The package is iOS only. To edit the Swift files, open `example/ios/ReactNativeIcloudExample.xcworkspace` in Xcode and find the source files at `Pods > Development Pods > @ltatarev/react-native-icloud`.
 
 You can use various commands from the root directory to work with the project.
 
@@ -50,12 +41,6 @@ To start the packager:
 
 ```sh
 yarn example start
-```
-
-To run the example app on Android:
-
-```sh
-yarn example android
 ```
 
 To run the example app on iOS:
@@ -98,11 +83,27 @@ The `package.json` file contains various scripts for common tasks:
 
 - `yarn`: setup project by installing dependencies.
 - `yarn typecheck`: type-check files with TypeScript.
-  - `yarn lint`: lint files with [ESLint](https://eslint.org/).
-    - `yarn example start`: start the Metro server for the example app.
-- `yarn example android`: run the example app on Android.
+- `yarn lint`: lint files with [ESLint](https://eslint.org/).
+- `yarn test`: run the Jest tests.
+- `yarn example start`: start the Metro server for the example app.
 - `yarn example ios`: run the example app on iOS.
-  
+- `yarn release`: publish a stable version.
+- `yarn release:alpha`: publish an alpha version to the `alpha` npm tag.
+
+### Publishing a release
+
+[release-it](https://github.com/release-it/release-it) publishes the package. It reads the [Conventional Commits](https://www.conventionalcommits.org/) messages to find the next version and to write `CHANGELOG.md`.
+
+1. Run `npm login`.
+2. Set `GITHUB_TOKEN` to a token that can create releases, or let release-it open the release page in the browser.
+3. On `main`, with a clean working tree, run `yarn release:alpha` for an alpha, or `yarn release` for a stable version.
+
+The release runs the type check, lint, and the Jest tests first. Then it bumps the version, updates `CHANGELOG.md`, commits, tags, pushes, publishes to npm, and creates a GitHub release.
+
+An alpha goes to the `alpha` npm tag, and the GitHub release is marked as a pre-release. Users install it with `yarn add @ltatarev/react-native-icloud@alpha`. The next `yarn release:alpha` increments the alpha number (`0.1.0-alpha.1`).
+
+The tag has no `v` prefix (`0.1.0`), because `ReactNativeIcloud.podspec` uses the version as the git tag.
+
 ### Sending a pull request
 
 > **Working on your first pull request?** You can learn how from this _free_ series: [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).

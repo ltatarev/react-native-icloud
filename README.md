@@ -10,15 +10,12 @@ how to merge it.
 
 ## Install
 
-The package is not on npm yet. Clone this repository next to the app, run
-`yarn prepare` in it, and link it:
-
-```json
-"@ltatarev/react-native-icloud": "link:../react-native-icloud"
+```sh
+yarn add @ltatarev/react-native-icloud react-native-nitro-modules
+cd ios && pod install
 ```
 
-The app must also depend on `react-native-nitro-modules` 0.36.5 or later.
-After you install, run `pod install` in `ios/`.
+The package needs `react-native-nitro-modules` 0.36.5 or later.
 
 The repository commits `nitrogen/generated/`, so a CI build does not have to
 run nitrogen. When you change `src/ReactNativeIcloud.nitro.ts`, run
