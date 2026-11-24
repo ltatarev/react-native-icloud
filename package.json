@@ -42,7 +42,7 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "jest",
     "release": "release-it",
-    "release:alpha": "release-it --preRelease=alpha"
+    "release:alpha": "release-it --preRelease=alpha --increment=patch"
   },
   "keywords": [
     "react-native",
