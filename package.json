@@ -1,6 +1,6 @@
 {
   "name": "@ltatarev/react-native-icloud",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.0",
   "description": "iCloud Drive container documents, file transfer and key-value store for React Native on iOS",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
