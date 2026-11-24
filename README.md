@@ -1,5 +1,12 @@
 # @ltatarev/react-native-icloud
 
+[![npm version](https://img.shields.io/npm/v/@ltatarev/react-native-icloud)](https://www.npmjs.com/package/@ltatarev/react-native-icloud)
+[![npm downloads](https://img.shields.io/npm/dm/@ltatarev/react-native-icloud)](https://www.npmjs.com/package/@ltatarev/react-native-icloud)
+[![CI](https://img.shields.io/github/actions/workflow/status/ltatarev/react-native-icloud/ci.yml?branch=main&label=CI)](https://github.com/ltatarev/react-native-icloud/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/@ltatarev/react-native-icloud)](LICENSE)
+![platform](https://img.shields.io/badge/platform-iOS-lightgrey)
+[![Nitro module](https://img.shields.io/badge/Nitro-module-blue)](https://nitro.margelo.com)
+
 iCloud for React Native on iOS: the ubiquity container, documents, binary
 files, the key-value store, change events and setup checks. The package is a
 [Nitro module](https://nitro.margelo.com). It has no Android code. On other
